@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- Basic Page Needs
+   ================================================== -->
+  <meta charset="utf-8">
+	<title>About | throwmeamovie </title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+   <!-- Mobile Specific Metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	 <meta charset="UTF-8">
+	<!-- CSS
+    ================================================== -->
+   <!-- <link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/layout.css">
+   <link rel="stylesheet" href="css/media-queries.css">
+   <link rel="stylesheet" href="css/updated.css"> -->
+
+   <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/default.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/layout.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/media-queries.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/updated.css' %}" />
+
+   <!-- Script
+   ================================================== -->
+	<script src="{% static 'myapp/js/modernizr.js' %}"></script>
+
+   <!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="{% static 'myapp/images/logo_small.png' %}" >
+
+</head>
+
+<body>
+
+  <!-- Header
+  ================================================== -->
+  <div class="sticky">
+  <header>
+
+     <div class="row">
+
+        <div class="twelve columns">
+
+           <div class="logo">
+             <a href="{% url 'index' %}"><img alt="" src="{% static 'myapp/images/logo_1.png' %}"></a>
+           </div>
+
+           <nav id="nav-wrap">
+
+              <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
+             <a class="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
+
+              <ul id="nav" class="nav">
+                <li class="current"><a href="{% url 'index' %}" id="home">Home</a></li>
+              </ul> <!-- end #nav -->
+
+           </nav> <!-- end #nav-wrap -->
+
+        </div>
+
+     </div>
+
+  </header>
+  </div><!-- Header End -->
+
+<div class="notsticky">
+   <!-- Page Title
+   ================================================== -->
+   <div id="page-title">
+
+      <div class="row">
+
+         <div class="ten columns centered text-center">
+            <h1>About Us<span>.</span></h1>
+
+            <p><b>Movies. You keep throwin 'em, We keep knockin 'em. </b> </p>
+         </div>
+
+      </div>
+
+   </div> <!-- Page Title End-->
+
+   <!-- Content
+   ================================================== -->
+   <div class="content-outer">
+
+      <div id="page-content" class="row page">
+
+         <div id="primary" class="twelwe columns text-center">
+
+            <section>
+
+               <h1>Meet our talented team.</h1>
+
+               <p class="lead">Here at throwmeamovie, we aspire to reach to all those fanatics who would just love a thumbs up from the movie pundits of our time. Started in the fall of 2015, we bring out a one of a kind website that does what it does best. Our team shouts of four bright minds who toiled hard, spending sleepless nights, and finally created something beautiful. We exaggerate, of course, except the last part.
+Yes, we do have a tiny story to tell, a peek at who we are. Two things you can already guess: it's a love story, and it's about what we do.
+<br><br> We are proud to introduce: throwmeamovie.com </p>
+<br>
+
+
+               <div class="row">
+
+				<div class="three columns">
+					<img src="{% static 'myapp/images/prathamesh_dp.jpg' %}" alt=""/>
+
+                        <div class"member-name">
+                           <h5>Prathamesh</h5>
+                           <span></span>
+						   <ul class="footer-social">
+               <li><a href="https://www.facebook.com/prtmsh?fref=ts" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <a href="https://www.linkedin.com/pub/prathamesh-ricky/87/483/9b2" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+                        </div>
+				</div>
+
+				<div class="three columns">
+					<img src="{% static 'myapp/images/ashish_dp.jpg' %}" alt=""/>
+
+                        <div class"member-name">
+                           <h5>Ashish Mishra</h5>
+                           <span></span>
+						   <ul class="footer-social">
+               <li><a href="hhttps://www.facebook.com/ashishspacemishra?fref=ts" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <a href="https://in.linkedin.com/pub/ashish-mishra/9a/6a6/671" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+                        </div>
+				</div>
+
+				<div class="three columns">
+					<img src="{% static 'myapp/images/jashan_dp.jpg' %}" alt=""/>
+
+                        <div class"member-name">
+                           <h5>Jashan Kamboj</h5>
+                           <span></span>
+						   <ul class="footer-social">
+               <li><a href="https://www.facebook.com/jashan.kamboj.315?fref=ts" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <a href="https://in.linkedin.com/in/jashan-kamboj-65831b80" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+                        </div>
+				</div>
+
+				<div class="three columns">
+					<img src="{% static 'myapp/images/swati_dp.jpg' %}" alt=""/>
+
+                        <div class"member-name">
+                           <h5>Swati Nanda</h5>
+                           <span></span>
+						   <ul class="footer-social">
+               <li><a href="https://www.facebook.com/swati.nanda.104?fref=ts" target="_blank"><i class="fa fa-facebook"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+                        </div>
+				</div>
+
+			   </div>
+
+            			</div>
+
+                  </div> <!-- Team wrapper End -->
+
+               </div> <!-- row End -->
+
+            </section> <!-- section end -->
+
+         </div> <!-- primary end -->
+
+         <div id="secondary" class="four columns end">
+
+
+         </div> <!-- secondary End-->
+
+      </div> <!-- page-content End-->
+
+   </div> <!-- Content End-->
+
+
+
+     <!-- Tweets Section
+   ================================================== -->
+   <section id="tweets">
+
+      <div class="row">
+
+         <div class="tweeter-icon align-center">
+            <i class="fa fa-facebook"></i>
+         </div>
+
+         <ul id="twitter" class="align-center">
+         </ul>
+
+         <p class="align-center"><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank" class="button" style="color:white">Follow us</a></p>
+
+      </div>
+
+   </section> <!-- Tweet Section End-->
+
+
+
+   <!-- footer================================================== -->
+
+   <footer>
+      <div class="row">
+         <div class="twelve columns">
+            <ul class="footer-nav">
+                <li><a href="{% url 'index' %}">Home.</a></li>
+            </ul>
+            <ul class="footer-social">
+               <li><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank"><i class="fa fa-facebook"></i></a></li>
+               <li><a href="https://www.google.com/+Throwmeamoviedotcom" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+            <ul class="copyright">
+               <li>Copyright &copy; 2016 throwmeamovie.</li>
+               <li>Version: Dev.1.0 </li>
+               <li>Design by <a href="http://www.styleshout.com/" target="_blank">Styleshout</a></li>
+            </ul>
+        </div>
+        <div id="go-top" style="display: block;"><a title="Back to Top" href="#">Go To Top</a></div>
+      </div>
+   </footer>  <!-- Footer End-->
+
+
+   <!-- Java Script
+   ================================================== -->
+   <script type="text/javascript" src="{% static 'myapp/js/jquery.min.1.10.2.js' %}"></script>
+   <script>window.jQuery || document.write('<script src="{% static "myapp/js/jquery-1.10.2.min.js" %}"><\/script>')</script>
+   <script type="text/javascript" src="{% static 'myapp/js/jquery-migrate-1.2.1.min.js' %}"></script>
+   <script src="{% static 'myapp/js/jquery.flexslider.js' %}"></script>
+   <script src="{% static 'myapp/js/doubletaptogo.js' %}"></script>
+   <script src="{% static 'myapp/js/init.js' %}"></script>
+
+
+       <script>                // to fix header
+           $(window).scroll(function(){
+             var sticky = $('.sticky'),
+             scroll = $(window).scrollTop();
+     	      sticky.addClass('fixed');
+           });
+
+           $(window).scroll(function(){
+             var notsticky = $('.notsticky'),
+             scroll = $(window).scrollTop();
+     	      notsticky.addClass('afterHeader');
+           });
+       </script>
+
+   </div>
+</body>
+
+</html>

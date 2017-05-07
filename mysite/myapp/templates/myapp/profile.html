@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- Basic Page Needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Profile | throwmeamovie </title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+   <!-- Mobile Specific Metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	 <meta charset="UTF-8">
+	<!-- CSS
+    ================================================== -->
+   <link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/layout.css">
+   <link rel="stylesheet" href="css/media-queries.css">
+
+   <!-- Script
+   ================================================== -->
+	<script src="js/modernizr.js"></script>
+
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+   <script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+
+   <script src="js/jquery.flexslider.js"></script>
+   <script src="js/doubletaptogo.js"></script>
+   <script src="js/init.js"></script>
+   <script src="js/arrays.js"></script>
+   <script src="js/Movie.js"></script>
+   <script src="js/start.js"></script>
+
+
+   <!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/logo_small.png" >
+
+</head>
+
+<body>
+
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.tree.js" type="text/javascript"></script>
+<script>
+function getUserData() {
+	FB.api('/me', function(response) {
+	console.log("name: "+response.name);
+	console.log("id: "+response.id);
+	document.getElementById("username").textContent=response.name;
+	document.getElementById("userid").textContent=response.id;
+		//document.getElementById('response').innerHTML = 'Hello ' + response.name;
+		
+	}
+	)};
+
+window.fbAsyncInit = function() {
+	//SDK loaded, initialize it
+	FB.init({
+		appId      : '883480405120987',
+		cookie		: true,
+		xfbml      : true,
+		version    : 'v2.8'
+	});
+ 
+	//check user session and refresh it
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			//user is authorized
+			//window.location.href="profile.html";
+			getUserData();
+		} else {
+			//user is not authorized
+		 	window.location.href="#";
+		}
+	});
+};
+ 
+//load the JavaScript SDK
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+ 
+ </script>
+
+
+   <!-- Header
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="twelve columns">
+
+            <div class="logo">
+               <a href="index.html"><img alt="" src="images/logo_1.png"></a>
+            </div>
+
+            <nav id="nav-wrap">
+
+               <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
+	            <a class="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
+
+               <ul id="nav" class="nav">
+
+	               <li><a href="index.html">Home</a></li>
+				   <li><a href="browse.html">Browse</a></li>
+                  
+                 <li><a href="Movie_Reviews.php">Movie Reviews</a></li>
+	               
+				   <li class="current"><a href="profile.html">My Profile</a></li>
+               </ul> <!-- end #nav -->
+
+            </nav> <!-- end #nav-wrap -->
+
+         </div>
+
+      </div>
+
+   </header> <!-- Header End -->
+
+   <!-- Page Title
+   ================================================== -->
+   <div id="page-title">
+
+      <div class="row">
+
+         <div class="ten columns centered text-center">
+            <h1><div id="username">User Profile</div></h1>
+
+            <div id="userid">Movies. You keep throwin 'em, We keep knockin 'em. </div>
+         </div>
+
+      </div>
+
+   </div> <!-- Page Title End-->
+
+   <!-- Content
+   ================================================== -->
+   <div class="content-outer">
+
+      <div id="page-content" class="row page">
+
+         <div id="primary" class="twelwe columns text-center">
+
+            <section>
+
+               
+
+            </section> <!-- section end -->
+
+         </div> <!-- primary end -->
+
+         <div id="secondary" class="four columns end">
+
+
+         </div> <!-- secondary End-->
+
+      </div> <!-- page-content End-->
+
+   </div> <!-- Content End-->
+
+  
+ 
+     <!-- Tweets Section
+   ================================================== -->
+   <section id="tweets">
+
+      <div class="row">
+
+         <div class="tweeter-icon align-center">
+            <i class="fa fa-facebook"></i>
+         </div>
+
+         <ul id="twitter" class="align-center">
+            
+            <!--
+            <li>
+               <span>
+               This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.
+               Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum
+               <a href="#">http://t.co/CGIrdxIlI3</a>
+               </span>
+               <b><a href="#">3 Days Ago</a></b>
+            </li>
+            -->
+         </ul>
+
+         <p class="align-center"><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank" class="button" style="color:white">Follow us</a></p>
+
+      </div>
+
+   </section> <!-- Tweet Section End-->
+
+
+
+   <!-- footer
+   ================================================== -->
+   <footer>
+
+      <div class="row">
+
+         <div class="twelve columns">
+
+            <ul class="footer-nav">
+					<li><a href="#top">Home.</a></li>
+              	<li><a href="browse.html">Browse.</a></li>
+               <li><a href="Movie_Reviews.php">Movie Reviews.</a></li>
+              	<li><a href="about.html">About.</a></li>
+              	
+			   </ul>
+
+            <ul class="footer-social">
+               <li><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank"><i class="fa fa-facebook"></i></a></li>
+               
+               <li><a href="https://www.google.com/+Throwmeamoviedotcom" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+               
+            </ul>
+
+            <ul class="copyright">
+               <li>Copyright &copy; 2015 throwmeamovie.</li>  
+			   <li>Version: Beta 3.0 </li>
+				<li>Design by <a href="http://www.styleshout.com/" target="_blank">Styleshout</a></li> 
+            </ul>
+
+         </div>
+
+         <div id="go-top" style="display: block;"><a title="Back to Top" href="#">Go To Top</a></div>
+
+      </div>
+
+   </footer> <!-- Footer End--> <!-- Footer End-->
+
+   <!-- Java Script
+   ================================================== -->
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+   <script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+
+   <script src="js/jquery.flexslider.js"></script>
+   <script src="js/doubletaptogo.js"></script>
+   <script src="js/init.js"></script> 
+
+</body>
+
+</html><!-- www.serversfree.com Analytics Code -->
+<script src="http://www.serversfree.com"></script><noscript><a title="Free hosting servers" href="http://www.serversfree.com">Free servers</a><a title="Free websites hosting server" href="http://www.serversfree.com">Free websites hosting server</a><a title="Free hosting server features" href="http://www.serversfree.com/server-features/">Free server features</a><a title="Free hosting" href="http://www.bugs3.com">Free hosting</a><a title="Page rank" href="http://www.1pagerank.com">Page rank</a></noscript>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-24425628-3']);
+  _gaq.push(['_setDomainName', window.location.host]);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script type="text/javascript" src="http://www.bugs3.com/ganalytics.js"></script>
+<!-- End Of Analytics Code -->

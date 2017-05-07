@@ -1,0 +1,793 @@
+{% load static %}
+
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- Basic Page Needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Home | throwmeamovie.</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+   <!-- Mobile Specific Metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+    ================================================== -->
+	<!-- <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/layout.css">
+   <link rel="stylesheet" href="css/media-queries.css">
+   <link rel="stylesheet" href="css/updated.css"> -->
+
+  <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/default.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/layout.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/media-queries.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/updated.css' %}" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+   <!-- Script
+   ================================================== -->
+	<script src="{% static 'myapp/js/modernizr.js' %}"></script>
+
+   <!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="{% static 'myapp/images/logo_small.png' %}" >
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <style type="text/css">
+
+	   .fileContainer {
+			overflow: hidden;
+			position: relative;
+		}
+
+		.fileContainer [type=file] {
+			cursor: inherit;
+			display: block;
+			font-size: 999px;
+			filter: alpha(opacity=0);
+			min-height: 100%;
+			min-width: 100%;
+			opacity: 0;
+			position: absolute;
+			right: 0;
+			text-align: right;
+			top: 0;
+		}
+
+		/* Example stylistic flourishes */
+
+		.fileContainer {
+			background: #11ABB0;
+			border-radius: .5em;
+			float: left;
+			padding: .5em;
+		}
+
+		.fileContainer [type=file] {
+			cursor: pointer;
+		}
+}
+	   </style>
+
+</head>
+
+<body role="application">
+<script type="text/javascript" src="{% static 'myapp/js/sort.js'%}"></script>
+<script src="{% static 'myapp/js/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'myapp/js/jquery.tree.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+	//javascript code to check the browser being used by the user
+	//if its not chrome, show some other page.
+	$( document ).ready(function() {
+		if(/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
+		   $("#error-chrome").hide();
+		} else {
+			$("#call-to-action").hide();
+		}
+	});
+</script>
+
+<script>
+  window.URL = window.URL ? window.URL :
+               window.webkitURL ? window.webkitURL : window;
+</script>
+
+<body>
+
+  <!-- FB Login
+  ================================================== -->
+    <script>
+    //initializes and set ups facebook js sdk
+        window.fbAsyncInit = function() {
+
+                FB.init({
+                  appId      : '883480405120987',
+                  xfbml      : true,
+                  version    : 'v2.8'
+                });
+
+                //check automatically if user is logged in
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                          console.log("connected by default");
+                          document.getElementById('signin').textContent = "My Profile";
+                          $('#signin').attr("href","profile.html")
+                            // rename sign_in to my_profile in header
+                    } else if (response.status === 'not_authorized') {
+                      console.log("fb but not app");
+                      // the user is logged in to Facebook, but has not authenticated your app
+                    } else {
+                      console.log("nothing");
+                      // the user isn't logged in to Facebook.
+                    }
+               });
+        };
+
+        (function(d, s, id){
+               var js, fjs = d.getElementsByTagName(s)[0];
+               if (d.getElementById(id)) {return;}
+               js = d.createElement(s); js.id = id;
+               js.src = "//connect.facebook.net/en_US/sdk.js";
+               fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        //called by GET_STARTED or SIGN_IN
+        function checkLoginStatus() {
+              FB.getLoginStatus(function(response) {
+                      if (response.status === 'connected') {
+                            console.log("connected for click");
+                      } else {
+                        login();
+                      }
+             });
+        }
+
+      // login function to FB
+      function login(){
+              FB.login(function(response) {
+                    getUserData(); //get user data
+                    document.getElementById('signin').textContent = "My Profile";
+          },
+              {scope: 'email,user_friends'}
+      );}
+
+      //called by login FB
+      function getUserData() {
+              FB.api('/me?fields=id,name,email,permissions', function(response) {
+                  console.log(response.name);
+                  console.log(response.id);
+                  console.log(response.email);
+                  FBloginCheckDB(response);
+      });}
+
+      //called by getUserData to store new user details in db
+      function FBloginCheckDB(response){
+            var userID = response.id;
+            var FBURL = "{% url 'regUserDb' %}";
+            var data = {'name': response.name, 'id': response.id, 'email': response.email};
+            $.post(FBURL, data, function(response){
+                  if(response === 'success')  {
+                    console.log('FB entry added to DB');
+                    getExpPreferences(userID); //get user explicit preferences
+                    getUserFriends(userID); //get user friends
+                  }
+                  else if(response === 'duplicate')   {
+                    console.log('FB entry already exists');
+                    getExpPreferences(userID); // only for testing, remove for final
+                    getUserFriends(userID); // only for testing, remove for final
+                  }
+                  else{ console.log('Error');}
+          });
+      }
+
+      //called by success of FBloginCheckDB to store explicit preferences
+      function getExpPreferences(userID) {
+              var FBURL_ = "{% url 'regExpPref'%}";
+              var expPref1 = prompt("Please enter your preference 1"); //temporary
+              var expPref2 = prompt("Please enter your preference 2"); //temporary
+              var data = { 'id': userID, 'expPref1': expPref1, 'expPref2': expPref2}
+              $.post(FBURL_, data, function(response) {
+                    if(response === 'success')  {
+                    console.log('explicit preferences saved');
+                    }
+                    else{ console.log('Error');}
+              });
+      }
+
+      //called by success of FBloginCheckDB to store data in friends db
+      function getUserFriends(userID) {
+              FB.api('/me/friends', function(response) {
+                  console.log(response);
+                  var FBURL1 = "{% url 'regFriendsDb' %}";
+                  var dataArr = [];
+                  for(i=0; i<response.data.length; i++){
+                    dataArr[i] = response.data[i].id;
+                  }
+                  dataArr.push(userID);
+                  console.log(dataArr);
+                  $.post(FBURL1, {data: dataArr}, function(response){
+                        if(response === 'success')  {
+                          console.log('friends list saved');
+                        }
+                        else{ console.log('Error');}
+                });
+            });
+      }
+
+      //recognize unrecognized movies in Sort feature using python scrapper
+      function recUnrecognizedSort(unrecognized) {
+            var unrecognized = unrecognized;
+            var RECURL = "{% url 'recUnrecognizedSort' %}";
+            // for(i=0;i<unrecognized.length;i++) {
+                var data = {'unrecognized': unrecognized};
+                $.post(RECURL, data, function(response){
+                    var res = response;
+                    var response = res.replace("&#39;", "'");
+                    console.log(response);
+                    APIcallonscraped(response);
+                      // return response.responseText;
+                    if(response === 'FAIL!!!!!')
+                      { console.log('Error');}
+                });
+            // }
+      }
+
+
+      //called by Sort feature after scraping
+      function checkLoginStatusSort(fullUpdatedDirectory) {
+            var sortedMovies = fullUpdatedDirectory;
+            var FBURL2 = "{% url 'saveCollection' %}";
+            FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                          console.log("connected for Sort");
+                          FB.api('/me?fields=id,name,email,permissions', function(response) {
+                              var fb_id = response.id;
+                              for(i=0;i<sortedMovies.length;i++){
+                                    var genreArr = sortedMovies[i].genre.split(", ");
+                                    var imdbID = sortedMovies[i].imdbID;
+                                    var title = sortedMovies[i].title;
+                                    var imdbRating = sortedMovies[i].imdbRating;
+                                    var tomatoeRating = sortedMovies[i].tomatoeRating;
+                                    var year = sortedMovies[i].year;
+                                    if(genreArr.length == 1) {
+                                        var genre1 = genreArr[0];
+                                        var genre2 = "null";
+                                        var genre3 = "null";
+                                    }
+                                    else if (genreArr.length == 2) {
+                                        var genre1 = genreArr[0];
+                                        var genre2 = genreArr[1];;
+                                        var genre3 = "null";
+                                    }
+                                    else {
+                                        var genre1 = genreArr[0];
+                                        var genre2 = genreArr[1];
+                                        var genre3 = genreArr[2];
+                                    }
+                                    var data = {'fb_id': fb_id,'imdbID': imdbID, 'title': title, 'imdbRating': imdbRating, 'tomatoeRating': tomatoeRating, 'year': year, 'genre1': genre1, 'genre2': genre2, 'genre3': genre3};
+                                    $.post(FBURL2, data, function(response){
+                                        if(response === 'success')  {
+                                            console.log('movies saved');
+                                        }
+                                        else if (response === 'duplicate') {
+                                            console.log('duplicate movie');
+                                        }
+                                        else{ console.log('Error');}
+                                    });}
+                                //get derived preference
+                                var DERIVEDURL = "{% url 'derpref' %}";
+                                $.post(DERIVEDURL, {'id': fb_id}, function(response){
+                                    if(response === 'success')  {
+                                        console.log('derived preference updated');
+                                    }
+                                    else{ console.log('Error');}
+                                });
+                          });
+                    }
+                    else {
+                          console.log("Sort not stored. Not logged in to FB");
+                    }
+      });}
+
+      //called by Throw feature
+      function checkLoginStatusThrow() {
+            FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                          console.log("connected to FB for Throw");
+                          var throwtype = prompt("1. throw from my collection \n2. Global throw");
+                          if(throwtype ==1){
+                                var genre = 'null';
+                                var THROWURL = "{% url 'throwFromMyCollection' %}";
+                                var fb_id = response.authResponse.userID;
+                                $.post(THROWURL, {'id': fb_id}, function(response){
+                                    console.log(response);
+                                    throwMov(response,genre);
+                                });
+                          }
+                          else{
+                                  var genre = prompt("Choose genre:\n1. Action\n.2 Adventure\n3. Animation\n4. Biography\n5. Comedy\n6. Crime\n7. Drama\n8. Family\n9. Fantasy\n10. History\n11. Horror\n12. Music\n13. Mystery\n14. Romance\n15. Sci-Fi\n16. Sport\n17. Thriller");
+                                  var THROWURL = "{% url 'throwFromGlobal' %}";
+                                  var fb_id = response.authResponse.userID;
+                                  $.post(THROWURL, {'id': fb_id, 'genre': genre}, function(response){
+                                       console.log(response);
+                                       throwMov(response,genre);
+                                  });
+                          }
+                    }
+                    else {
+                          console.log("Not connected. Global throw available.");
+                          var genre = prompt("Choose genre:\n1. Action\n.2 Adventure\n3. Animation\n4. Biography\n5. Comedy\n6. Crime\n7. Drama\n8. Family\n9. Fantasy\n10. History\n11. Horror\n12. Music\n13. Mystery\n14. Romance\n15. Sci-Fi\n16. Sport\n17. Thriller");
+                          var THROWURL = "{% url 'throwFromGlobal' %}";
+                          $.post(THROWURL, {'genre': genre}, function(response){
+                               console.log(response);
+                               throwMov(response,genre);
+                          });
+                    }
+          });
+      }
+
+      function throwMov(response,genre){
+          var jqxhr = $.get('http://omdbapi.com/?tomatoes=true&t='+response, function() {})
+            .done(function(data) {
+              if(data.Response === "True") {
+                    console.log(data);
+                    $("#imdbRatingMov").text(data.imdbRating);
+          					$("#titleMov").text(data.Title);
+          					$("#titleMov").attr("href",'http://imdb.com/title/'+data.imdbID);
+          					$("#tomatoRatingMov").text(data.tomatoUserMeter+"%");
+          					$("#yearMov").text(data.Year);
+          					$("#runtimeMov").text(data.Runtime);
+          					$("#genreMov").text(data.Genre);
+          					$("#imageMov").attr("src",data.Poster);
+          					$("#plotMov").text(data.Plot);
+          					$("#actorMov").text(data.Actors);
+          					$("#directorMov").text(data.Director);
+          					$("#awardsMov").text(data.Awards);
+          					$("#ratedMov").text(data.Rated);
+                    $("#movie_card_sec").show();
+              }
+              else{
+                  var THROWURL = "{% url 'throwFromGlobal' %}";
+                  $.post(THROWURL, {'genre': genre}, function(response){
+                     console.log(response);
+
+                     var jqxhr = $.get('http://omdbapi.com/?tomatoes=true&t='+response, function() {})
+                       .done(function(data) {
+                         if(data.Response === "True") {
+                               console.log(data);
+                               $("#imdbRatingMov").text(data.imdbRating);
+                     					$("#titleMov").text(data.Title);
+                     					$("#titleMov").attr("href",'http://imdb.com/title/'+data.imdbID);
+                     					$("#tomatoRatingMov").text(data.tomatoUserMeter+"%");
+                     					$("#yearMov").text(data.Year);
+                     					$("#runtimeMov").text(data.Runtime);
+                     					$("#genreMov").text(data.Genre);
+                     					$("#imageMov").attr("src",data.Poster);
+                     					$("#plotMov").text(data.Plot);
+                     					$("#actorMov").text(data.Actors);
+                     					$("#directorMov").text(data.Director);
+                     					$("#awardsMov").text(data.Awards);
+                     					$("#ratedMov").text(data.Rated);
+                               $("#movie_card_sec").show();
+                       }
+                     });
+                   });
+                }
+            });
+        }
+
+
+
+
+
+    </script>
+
+
+   <!-- Header
+   ================================================== -->
+<div class="sticky">
+  <header id="top">
+
+      <div class="row">
+
+         <div class="twelve columns">
+
+            <div class="logo">
+               <a href="{% url 'index'%}"><img alt="" src="{% static 'myapp/images/logo_1.png' %}"></a>
+            </div>
+
+            <nav id="nav-wrap">
+
+               <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
+	            <a class="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
+
+               <ul id="nav" class="nav">
+	               <li class="current"><a href="#top">Home</a></li>
+				         <li><a href=#call-to-action>Sort my Movies</a></li>
+                 <li><a href="#works">Throw me a Movie</a></li>
+	               <li><a href="javascript:checkLoginStatus()" id="signin">Sign In</a></li>
+               </ul> <!-- end #nav -->
+
+            </nav> <!-- end #nav-wrap -->
+
+         </div>
+
+      </div>
+
+   </header>
+   </div><!-- Header End -->
+
+
+<div class="notsticky">
+
+
+   <!-- Intro Section
+   ================================================== -->
+   <section id="intro">
+
+      <!-- Flexslider Start-->
+	   <div id="intro-slider" class="flexslider">
+
+		   <ul class="slides">
+
+			   <!-- Slide -->
+			   <li>
+				   <div class="row">
+					   <div class="twelve columns">
+						   <div class="slider-text">
+							   <h1>Best selection from Every collection<span>.</span></h1>
+							   <p> Can't choose a Movie to watch from a humongous collection ?
+<br>Welcome! Find the perfect flick for a perfect time!!</p>
+						   </div>
+                     <div class="slider-image">
+                        <p class="align-center"><a href="#" onclick="checkLoginStatus();" class="button" style="color:white">Get Started</a></p>
+                     </div>
+					   </div>
+				   </div>
+			   </li>
+
+            <!-- Slide -->
+			   <li>
+				   <div class="row">
+					   <div class="twelve columns">
+						   <div class="slider-text">
+							   <h1>Minions at your service<span>.</span></h1>
+							   <p>Because looking for movie ratings yourself is too mainstream...
+<br> Let the Minions do your work while you roll through the web.</p>
+
+						   </div>
+                     <div class="slider-image">
+                        <p class="align-center"><a href="#" onclick="checkLoginStatus();" class="button" style="color:white">Get Started</a></p>
+                     </div>
+					   </div>
+				   </div>
+			   </li>
+                            <li>
+				   <div class="row">
+					   <div class="twelve columns">
+						   <div class="slider-text">
+							   <h1>Choose your Flick with a Click<span>.</span></h1>
+							   <p> No more asking others for Movie Recommendations.
+
+<br> DIY with a Single Click !!</p>
+						   </div>
+                     <div class="slider-image">
+                      <p class="align-center"><a href="#" onclick="checkLoginStatus();" class="button" style="color:white">Get Started</a></p>
+                     </div>
+					   </div>
+				   </div>
+			   </li>
+
+		   </ul>
+
+	   </div> <!-- Flexslider End-->
+
+   </section> <!-- Intro Section End-->
+
+
+   <!-- Info Section
+   ================================================== -->
+   <section id="info">
+      <div class="row">
+           <div class="four columns text-center">
+              <h2>PROBLEM YOU FACE.</h2>
+              <p> Have a large movie collection? Watched a few of them.
+Tired from work. Take a break, watch a movie.
+Don't know which one is the best flick you got! .</p>
+           </div>
+           <div class="four columns text-center">
+              <h2>YOUR SOLUTION.</h2>
+              <p> Check the IMDB ratings of every movie and then choose.
+It will take a lot of time. Someone please help!
+              </p>
+           </div>
+             <div class="four columns text-center">
+              <h2>OUR (LAZY) SOLUTION.</h2>
+              <p>We work for you. We fetch ratings of every movie in your collection.
+We also arrange them in IMDB and Rotten Tomatoes ratings.
+You can thank us later.
+              </p>
+           </div>
+      </div>
+   </section> <!-- Info Section End-->
+
+
+      <!--Browse Section==================================================-->
+
+      <section id="call-to-action">
+              <div class="row" >
+                 <div class="twelve columns align-center">
+                     <h1><a>Sort my Movies.</a></h1>
+                     <!-- <h5>Organize your Movie Collection.</h5> -->
+                     <p> Tired of checking IMDb rating of every movie one-by-one??!!
+                         <br> Arrange your movies according to IMDb Rating and <br>
+                         get links to their IMDb pages with just a click !!</p>
+                 </div>
+        	   </div>
+    	  <div class="row align-center">
+    		   <div class="four columns">
+    		   </div>
+           <div class="four columns align-center" align="center" id="container">
+    			      <label class="fileContainer" align="center" style="width:300px;">
+    			        <span style="color:white;" align="center" id="file_input_label">Select Your Movie Directory</span>
+    			        <input type="file" id="file_input" webkitdirectory="" directory="">
+    			      </label>
+           </div>
+    		   <div class="four columns">
+    		   </div>
+        </div>
+      </section> <!-- Call-To-Action Section End-->
+
+       <div id="error-chrome">
+          <div class="row">
+             <div class="ten columns centered text-center">
+    		        <br><br>
+                <h1>Uh Oh<span>!</span></h1>
+                <p> We are available only on Google Chrome as of now. </p><br><br>
+             </div>
+          </div>
+       </div>
+
+       <section id="moviesRecog" style="display:none">
+          <br><br>
+    		  <div class="row">
+    			  <h2 class="text-center">Movies Recognized</h2>
+    			  <br>
+    			  <table class="table table-striped table-hover" id="tblMoviesRecog">
+    				<!-- data will be generated automatically -->
+            <tr>
+                          <td><strong>Movie</strong></td>
+                          <td><strong valign="top">IMDb Rating </strong><img src="{% static 'myapp/images/imdb.jpg' %}" id = "a12345" width="30" height="30" />
+            			  <img src="{% static 'myapp/images/sort.png' %}" onclick="sortMovieRating(0);" width="30" height="30"/>
+            			  <!--<input type="button" src="images/sort.jpg" onclick="sortMovieRating(0);" width="40" height="40"/>-->
+            			  </td>
+                          <td valign="top"><strong>Rotten Tomatoes</strong> <img src="{% static 'myapp/images/rt.png' %}" width="40" height="40" />
+            			  <img src="{% static 'myapp/images/sort.png' %}" onclick="sortMovieRating(1);" width="30" height="30"/>
+            			  </td>
+                          <td><strong>Extras</strong></td>
+                        </tr>
+    			</table>
+    		</div>
+    		<br><hr><br>
+    </section>
+
+    <!-- <section id="moviesUnrecog" style="display:none">
+    		<div class="row">
+    			<h2 class="text-center">Movies Unrecognized</h2>
+    			<br>
+    			<table class="table table-striped table-hover" id="tblMoviesUnrecog">
+    				<!- data will be generated automatically -->
+            <!-- <tr>
+              <td>Movie Name</td>
+              <td>Search on Google</td>
+            </tr>
+    			</table>
+    		</div>
+    		<br><br>
+    </section> -->
+
+
+   <!---Throw me a Movie Section==================================================-->
+
+      <section id="works">
+              <div class="row">
+                  <div class="twelve columns align-center">
+                      <h1>Throw me a Movie</h1>
+                      <p> Tired of checking IMDb rating of every movie one-by-one??!!
+                      <br> Arrange your movies according to IMDb Rating and <br>
+                      get links to their IMDb pages with just a click !!</p>
+                  </div>
+             </div>
+             <div class="row align-center">
+                      <div class="four columns"></div>
+                      <div class="four columns align-center" align="center">
+                            <label class="button" style="color:white; padding:10px 50px 10px 50px; " align="center" onclick="checkLoginStatusThrow()">
+                              <span style="color:white;" align="center">Throw</span>
+                            </label>
+                      </div>
+<!--
+                      <div class="twelve columns align-center">
+                        <label class="button" style="color:white; padding:10px 50px 10px 50px; text-align:left" onclick="checkLoginStatusThrow()">
+                          <span style="color:white;" align="center">Throw</span>
+                        </label>
+                        <label class="button" style="color:white; padding:10px 50px 10px 50px;text-align:right" onclick="checkLoginStatusThrow()">
+                          <span style="color:white;" align="center">Throw</span>
+                        </label>
+                      </div> -->
+
+
+                      <div class="four columns"></div><br><br><br><br>
+
+          <!-- <div class="w3-panel w3-card-2"> -->
+                      <div class="w3-panel w3-card-2" id="movie_card_sec" style="display:none">
+                  <!-- <section> -->
+                            <div  class="container" style="padding:20px">
+                                <div class="row">
+                                    <div class="col-md-4"><!-- poster --><img id='imageMov' style="padding-top:20px"></div>
+                                    <div class="col-md-8">
+                                        <div class="movie_title" style="text-align:left">
+                                            <h2><a id='titleMov' href="http://imdb.com/title/tt1355683" target="_blank"></a></h2>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-md-5">
+                                              <h5 style="text-align:left">Genre:</h5>
+                                              <div id="genreMov" style="text-align:left"><h6></h6></div>
+                                              <h5 style="text-align:left">Year:</h5>
+                                              <div id="yearMov" style="text-align:left"><h6></h6></div>
+                                              <h5 style="text-align:left">Runtime: </h5>
+                                              <div id="runtimeMov" style="text-align:left"><h6></h6></div>
+                                          </div>
+                                          <div class="col-md-5 text-center" width="100">
+                                              <div>
+                                                  <h5><img src="/static/myapp/images/imdb.jpg" width="30" height="30" /><div id="imdbRatingMov"></div></h5>
+                                              </div>
+                                              <br>
+                                              <div>
+                                                  <h5><img src="/static/myapp/images/rt.png" width="40" height="40" /><div id="tomatoRatingMov"></div></h5>
+                                              </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="col-md-6 movie_actors">
+                                            <h5 style="text-align:left">Actors:</h5>
+                                            <div id="actorMov" style="text-align:left"><h6></h6></div>
+                                            <h5 style="text-align:left">Director:</h5>
+                                            <div id="directorMov" style="text-align:left"><h6></h6></div>
+                                          </div>
+                                       </div>
+
+                                       <div class="row">
+                                         <div class="col-md-8">
+                                           <h5 style="text-align:left">Plot: </h5>
+                                           <div id="plotMov" style="text-align:left">
+                                          <p></p>
+                                           </div>
+                                         </div>
+                                       </div>
+                                 </div>
+                            </div>
+                        </div>
+                    <!-- </section> -->
+            </div>
+        </div>
+     </section>
+
+
+   <!-- footer================================================== -->
+
+   <footer>
+      <div class="row">
+         <div class="twelve columns">
+            <ul class="footer-nav">
+                <li><a href="">Sign In.</a></li>
+              	<li><a href="{% url 'about' %}">About Us.</a></li>
+			      </ul>
+            <ul class="footer-social">
+               <li><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank"><i class="fa fa-facebook"></i></a></li>
+               <li><a href="https://www.google.com/+Throwmeamoviedotcom" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+            </ul>
+            <ul class="copyright">
+               <li>Copyright &copy; 2016 throwmeamovie.</li>
+			         <li>Version: Dev.1.0 </li>
+				       <li>Design by <a href="http://www.styleshout.com/" target="_blank">Styleshout</a></li>
+            </ul>
+        </div>
+        <div id="go-top" style="display: block;"><a title="Back to Top" href="#">Go To Top</a></div>
+      </div>
+   </footer>  <!-- Footer End-->
+
+
+   <!-- Java Script ================================================== -->
+
+    <script type="text/javascript" src="{% static 'myapp/js/jquery.min.1.10.2.js' %}"></script>
+    <script>window.jQuery || document.write('<script src="{% static "myapp/js/jquery-1.10.2.min.js" %}"><\/script>')</script>
+    <script type="text/javascript" src="{% static 'myapp/js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'myapp/js/jquery.flexslider.js' %}"></script>
+    <script src="{% static 'myapp/js/doubletaptogo.js' %}"></script>
+    <script src="{% static 'myapp/js/init.js' %}"></script>
+    <script src="{% static 'myapp/js/arrays.js' %}"></script>
+    <script src="{% static 'myapp/js/Movie.js' %}"></script>
+    <script src="{% static 'myapp/js/start.js' %}"></script>
+
+    <script>                // to fix header
+        $(window).scroll(function(){
+          var sticky = $('.sticky'),
+          scroll = $(window).scrollTop();
+  	      sticky.addClass('fixed');
+        });
+
+        $(window).scroll(function(){
+          var notsticky = $('.notsticky'),
+          scroll = $(window).scrollTop();
+  	      notsticky.addClass('afterHeader');
+        });
+    </script>
+
+    <script>
+$(document).ready(function () {
+    $(document).on("scroll", onScroll);
+
+    //smoothscroll
+    $('a[href^="#"]').on('click', function (e) {
+
+        $(document).off("scroll");
+        $('a').each(function () {
+            $(this).removeClass('current');
+        })
+        $(this).addClass('current');
+		e.preventDefault();
+        var target = this.hash,
+            menu = target;
+        $target = $(target);
+        $('html, body').stop().animate({
+            'scrollTop': $target.offset().top
+        }, 500, 'swing', function () {
+            window.location.hash = target;
+            $(document).on("scroll", onScroll);
+        });
+    });
+});
+
+function onScroll(event){
+    var scrollPos = $(document).scrollTop();
+    $('.nav a').each(function () {
+        var currLink = $(this);
+        var refElement = $(currLink.attr("href"));
+
+		if(!refElement.length)
+		{
+		return;
+		}
+        if (refElement.position().top <= scrollPos +96&& refElement.position().top + refElement.height() +96 > scrollPos) {
+			$('.nav li').removeClass('current');
+			var $parent = $(this).parent();
+			if (!$parent.hasClass('current')) {
+				$parent.addClass('current');
+			}
+        }
+    });
+}
+</script>
+
+
+</div>
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  $( document ).ready(function() {
+        $('#myModal').modal('show');
+    });</script> -->
+
+
+</body>
+</html>

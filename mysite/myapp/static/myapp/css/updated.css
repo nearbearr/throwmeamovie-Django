@@ -1,0 +1,20 @@
+.fixed {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    z-index: 10;
+}
+
+.browse{
+	margin-top:150px;
+}
+
+.afterHeader{
+	margin-top: 96px;
+}
+
+#call-to-action , #works{
+  padding-top: 106px;
+  padding-bottom: 106px;
+
+}

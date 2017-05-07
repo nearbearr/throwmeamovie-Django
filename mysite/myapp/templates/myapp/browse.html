@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+
+   <!--- Basic Page Needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>Browse | throwmeamovie.</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+   <!-- Mobile Specific Metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+    ================================================== -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/default.css">
+	<link rel="stylesheet" href="css/layout.css">
+   <link rel="stylesheet" href="css/media-queries.css">
+
+   <!-- Script
+   ================================================== -->
+	<script src="js/modernizr.js"></script>
+
+   <!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/logo_small.png" >
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       <style type="text/css">
+	   
+	   .fileContainer {
+			overflow: hidden;
+			position: relative;
+		}
+
+		.fileContainer [type=file] {
+			cursor: inherit;
+			display: block;
+			font-size: 999px;
+			filter: alpha(opacity=0);
+			min-height: 100%;
+			min-width: 100%;
+			opacity: 0;
+			position: absolute;
+			right: 0;
+			text-align: right;
+			top: 0;
+		}
+
+		/* Example stylistic flourishes */
+
+		.fileContainer {
+			background: #11ABB0;
+			color:white;
+			border-radius: .5em;
+			float: left;
+			padding: .5em;
+		}
+
+		.fileContainer [type=file] {
+			cursor: pointer;
+		}
+}
+	   </style>
+
+</head>
+
+<body role="application">
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/jquery.tree.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+	//javascript code to check the browser being used by the user
+	//if its not chrome, show some other page.
+	$( document ).ready(function() {
+		if(/chrom(e|ium)/.test(navigator.userAgent.toLowerCase())){
+		   $("#error-chrome").hide();
+		} else {
+			$("#call-to-action").hide();
+		}
+	});
+
+</script>
+
+<script>
+
+  window.URL = window.URL ? window.URL :
+               window.webkitURL ? window.webkitURL : window;
+
+</script>
+
+<body>
+
+   <!-- Header
+   ================================================== -->
+   <header>
+
+      <div class="row">
+
+         <div class="twelve columns">
+
+            <div class="logo">
+               <a href="index.html"><img alt="" src="images/logo_1.png"></a>
+            </div>
+
+            <nav id="nav-wrap">
+
+               <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show navigation</a>
+	            <a class="mobile-btn" href="#" title="Hide navigation">Hide navigation</a>
+
+               <ul id="nav" class="nav">
+
+	               <li><a href="index.html">Home</a></li>
+	               
+				   <li class="current"><a href="browse.html">Browse</a></li>
+                  
+                 <li><a href="Movie_Reviews.php">Movie Reviews</a></li>
+				   
+	               <li><a href="about.html">About</a></li>
+				   
+
+               </ul> <!-- end #nav -->
+
+            </nav> <!-- end #nav-wrap -->
+
+         </div>
+
+      </div>
+
+   </header> <!-- Header End -->
+
+   
+   <section id="call-to-action">
+
+      <div class="row">
+
+         <div class="twelve columns align-center">
+
+
+             <h1><a> Organize your Movie Collection<span>.</span></a></h1>
+             <br><p> Tired of checking IMDb rating of every movie one-by-one??!!
+                 <br> Arrange your movies according to IMDb Rating and <br>
+                 get links to their IMDb pages with just a click !!</p>
+         </div>
+	</div>
+	<div class="row align-center">
+		<div class="four columns">
+		</div>
+         <div class="four columns align-center" id="container">
+		 
+			<label class="fileContainer">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span style="color:white" id="file_input_label">Select your movies directory...</span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" id="file_input" webkitdirectory="" directory="">
+			</label>
+
+         </div>
+		 <div class="four columns">
+		</div>
+      </div>
+
+   </section> <!-- Call-To-Action Section End-->
+   <div id="error-chrome">
+
+      <div class="row">
+
+         <div class="ten columns centered text-center">
+		 <br><br>
+            <h1>Uh Oh<span>!</span></h1>
+
+            <p> We are available only on Google Chrome as of now. </p><br><br>
+         </div>
+
+      </div>
+
+   </div> 
+   <section id="moviesRecog" style="display:none">
+   <br><br>
+		<div class="row">
+			<h2 class="text-center">Movies Recognized</h2>
+			<br>
+			<table class="table table-striped table-hover" id="tblMoviesRecog">
+				<!-- data will be generated automatically -->
+        <tr>
+          <td>Movie</td>
+          <td>IMDb Rating <img src="images/imdb.jpg" width="20" height="20" /></td>
+          <td>Rotten Tomatoes <img src="images/rt.png" width="20" height="20" /></td>
+          <td>Extras</td>
+        </tr>
+			</table>
+		</div>
+		<br><hr><br>
+   </section>
+   <section id="moviesUnrecog" style="display:none">
+		<div class="row">
+			<h2 class="text-center">Movies Unrecognized</h2>
+			<br>
+			<table class="table table-striped table-hover" id="tblMoviesUnrecog">
+				<!-- data will be generated automatically -->
+        <tr>
+          <td>Movie Name</td>
+          <td>Search on Google</td>
+        </tr>
+			</table>
+		</div>
+		<br><br>
+   </section>
+   
+
+   
+  
+
+<!--
+    <section id="journal">
+
+<div class="row" id="filenames">
+         <div class="twelve columns align-center">
+            <h3>MOVIES RECOGNIZED</h3>
+         </div>
+      
+        
+        
+        <table class="TFtable">
+            <tr>
+                <td><b>Movie Name</b></td>
+                <td align='center' ><b>Rating</b></td>
+                <th align='right'> Link to IMDb page</th>
+            </tr>       
+                        <tr>
+                         <ul id="fileNamesList">
+      </ul>
+                        </tr>
+                       
+           </table><br><br><br>
+     </div>   
+  
+
+   <!-- Works Section
+   ================================================== 
+   <section id="works">
+
+      <div class="row">
+
+         <div class="twelve columns align-center">
+            <h1>Latest Releases</h1>
+         </div>
+
+         <div id="portfolio-wrapper" class="bgrid-quarters s-bgrid-halves">
+
+    		   <div class="columns portfolio-item">
+              
+    			<div class="overlay">	   <a href="portfolio.html">
+                     <img alt="" src="images/img_1.jpg">
+                     </div>
+                     
+                    </div>
+
+           
+    		   <div class="columns portfolio-item">
+              
+    			<div class="overlay">	   <a href="portfolio.html">
+                     <img alt="" src="images/img_2.jpg">
+                     </div>
+                     
+                    </div>
+
+            
+    		   <div class="columns portfolio-item">
+              
+    			<div class="overlay">	   <a href="portfolio.html">
+                     <img alt="" src="images/img_3.png">
+                     </div>
+                     
+                    </div>
+
+            
+    		   <div class="columns portfolio-item">
+              
+    			<div class="overlay">	   <a href="portfolio.html">
+                     <img alt="" src="images/img_4.jpg">
+                     </div>
+                     
+                    </div>
+
+         </div>
+
+      </div>
+
+   </section>  Works Section End--> 
+  
+
+
+    
+
+
+   <!-- footer
+   ================================================== -->
+   <footer>
+
+      <div class="row">
+
+         <div class="twelve columns">
+
+            <ul class="footer-nav">
+					<li><a href="index.html">Home.</a></li>
+              	<li><a href="#top">Browse.</a></li>
+                 <li><a href="Movie_Reviews.php">Movie Reviews.</a></li>
+              	<li><a href="about.html">About.</a></li>
+              	
+			   </ul>
+
+            <ul class="footer-social">
+               <li><a href="https://web.facebook.com/pages/throwmeamoviecom/1668606913379909?sk=timeline" target="_blank"><i class="fa fa-facebook"></i></a></li>
+               
+               <li><a href="https://www.google.com/+Throwmeamoviedotcom" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+               
+            </ul>
+
+            <ul class="copyright">
+               <li>Copyright &copy; 2015 throwmeamovie.</li>  
+			   <li>Version: Beta 3.0 </li>
+				<li>Design by <a href="http://www.styleshout.com/" target="_blank">Styleshout</a></li> 
+            </ul>
+
+         </div>
+
+         <div id="go-top" style="display: block;"><a title="Back to Top" href="#">Go To Top</a></div>
+
+      </div>
+
+   </footer> <!-- Footer End-->
+
+   <!-- Java Script
+   ================================================== -->
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+   <script type="text/javascript" src="js/jquery-migrate-1.2.1.min.js"></script>
+
+   <script src="js/jquery.flexslider.js"></script>
+   <script src="js/doubletaptogo.js"></script>
+   <script src="js/init.js"></script>
+   <script src="js/arrays.js"></script>
+   <script src="js/Movie.js"></script>
+   <script src="js/start.js"></script>
+   <!-- <script src="js/randomThrow.js"></script> -->
+   <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67503903-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+</body>
+
+</html>
+
+
